@@ -1,0 +1,12 @@
+# Prevenir listagem de diretórios
+Options -Indexes
+
+# Configuração de charset
+AddDefaultCharset UTF-8
+
+# Opções de segurança básicas
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+</IfModule>

@@ -1,0 +1,38 @@
+# Cache local (o diretório é mantido, mas o conteúdo JSON é gerado pelo servidor)
+/cache/*
+!/cache/.gitkeep
+
+# Arquivos de ambiente e segredos
+.env
+.env.local
+.env.*.local
+
+# Dependências (se forem adicionadas futuramente)
+/vendor/
+/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Arquivos de sistema operacional
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Arquivos de IDEs e Editores
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+
+# Arquivos temporários e logs
+*.log
+*.tmp
+*.bak
