@@ -29,37 +29,40 @@ $currentPage = isset($_GET['page']) ? $_GET['page'] : 'home';
 </head>
 
 <body class="bg-dark text-light d-flex flex-column min-vh-100">
-    <nav class="navbar navbar-expand-lg sticky-top custom-navbar border-bottom">
+    <!-- Menu Flutuante Estilo Pill que Rola Junto com a Página -->
+    <header class="py-3 header-floating-wrapper">
         <div class="container">
-            <a class="navbar-brand brand-logo" href="./index.php">
-                <img src="./assets/img/AV-Logo-new-transp.png" alt="Asas Virtuais Logo" height="50">
-            </a>
+            <nav class="navbar navbar-expand-lg custom-navbar-floating rounded-pill px-3 px-md-4 py-2 shadow-lg">
+                <a class="navbar-brand brand-logo me-3" href="./index.php">
+                    <img src="./assets/img/AV-Logo-new-transp.png" alt="Asas Virtuais Logo" height="42">
+                </a>
 
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Alternar navegação">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+                <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Alternar navegação">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-            <div class="collapse navbar-collapse" id="navbarContent">
-                <ul class="navbar-menu navbar-nav mx-auto mb-2 mb-lg-0 gap-lg-3">
-                    <li class="nav-item">
-                        <a class="nav-link text-uppercase fw-semibold <?php echo $currentPage === 'home' ? 'active' : ''; ?>" href="./index.php">Vídeos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-uppercase fw-semibold" href="https://www.youtube.com/@asasvirtuais/playlists" target="_blank" rel="noopener">
-                            Playlists <i class="bi bi-box-arrow-up-right ms-1 opacity-75 small"></i>
+                <div class="collapse navbar-collapse" id="navbarContent">
+                    <ul class="navbar-menu navbar-nav mx-auto mb-2 mb-lg-0 gap-lg-2">
+                        <li class="nav-item">
+                            <a class="nav-link text-uppercase fw-semibold px-3 <?php echo $currentPage === 'home' ? 'active' : ''; ?>" href="./index.php">Vídeos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-uppercase fw-semibold px-3" href="https://www.youtube.com/@asasvirtuais/playlists" target="_blank" rel="noopener">
+                                Playlists <i class="bi bi-box-arrow-up-right ms-1 opacity-75 small"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-uppercase fw-semibold px-3 <?php echo $currentPage === 'sobre' ? 'active' : ''; ?>" href="./index.php?page=sobre">Sobre</a>
+                        </li>
+                    </ul>
+
+                    <div class="d-flex align-items-center">
+                        <a href="https://www.youtube.com/@asasvirtuais" target="_blank" rel="noopener" class="btn btn-danger btn-yt-custom d-inline-flex align-items-center gap-2 fw-semibold shadow-sm rounded-pill px-3 py-2">
+                            <i class="bi bi-youtube fs-5"></i>
+                            <span>Inscrever-se</span>
                         </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-uppercase fw-semibold <?php echo $currentPage === 'sobre' ? 'active' : ''; ?>" href="./index.php?page=sobre">Sobre</a>
-                    </li>
-                </ul>
-
-                <div class="d-flex align-items-center">
-                    <a href="https://www.youtube.com/@asasvirtuais" target="_blank" rel="noopener" class="btn btn-danger btn-yt-custom d-inline-flex align-items-center gap-2 fw-semibold shadow-sm">
-                        <i class="bi bi-youtube fs-5"></i>
-                        <span>Inscrever-se</span>
-                    </a>
+                    </div>
                 </div>
-            </div>
+            </nav>
         </div>
-    </nav>
+    </header>

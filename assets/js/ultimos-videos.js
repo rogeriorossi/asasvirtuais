@@ -3,7 +3,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalEl = document.getElementById('videoModal');
     const modalIframe = document.getElementById('modalIframe');
     const modalLabel = document.getElementById('videoModalLabel');
+    const searchInput = document.getElementById('video-search-input');
+    const clearSearchBtn = document.getElementById('clear-search-btn');
+    const filterButtons = document.querySelectorAll('.btn-filter');
 
+    let allVideos = [];
+    let currentFilterTag = 'all';
     let bsModalInstance = null;
 
     if (modalEl && typeof bootstrap !== 'undefined') {
@@ -33,7 +38,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await response.json();
 
             if (data.success && data.videos && data.videos.length > 0) {
-                renderVideos(data.videos);
+                allVideos = data.videos;
+                applyFiltersAndRender();
             } else {
                 renderError('Nenhum vídeo encontrado no momento.');
             }
@@ -42,6 +48,68 @@ document.addEventListener('DOMContentLoaded', () => {
             renderError('Ocorreu um erro ao carregar os vídeos do canal. Tente novamente mais tarde.');
         }
     }
+
+    // Aplicar Filtro por busca e tag
+    function applyFiltersAndRender() {
+        const query = searchInput ? searchInput.value.trim().toLowerCase() : '';
+
+        const filtered = allVideos.filter(video => {
+            const title = video.title ? video.title.toLowerCase() : '';
+            const desc = video.description ? video.description.toLowerCase() : '';
+
+            // Match busca por texto
+            const matchesQuery = !query || title.includes(query) || desc.includes(query);
+
+            // Match busca por tag
+            let matchesTag = true;
+            if (currentFilterTag === 'live') {
+                matchesTag = title.includes('live') || title.includes('ao vivo');
+            } else if (currentFilterTag === 'tutorial') {
+                matchesTag = title.includes('tutorial') || title.includes('carta') || desc.includes('tutorial');
+            } else if (currentFilterTag === 'ils') {
+                matchesTag = title.includes('ils') || desc.includes('ils');
+            } else if (currentFilterTag === 'zibo') {
+                matchesTag = title.includes('737') || title.includes('zibo') || title.includes('pmdg');
+            }
+
+            return matchesQuery && matchesTag;
+        });
+
+        if (filtered.length > 0) {
+            renderVideos(filtered);
+        } else {
+            renderEmptySearch();
+        }
+    }
+
+    // Event Listeners de Busca e Tags
+    if (searchInput) {
+        searchInput.addEventListener('input', () => {
+            if (clearSearchBtn) {
+                clearSearchBtn.classList.toggle('d-none', !searchInput.value);
+            }
+            applyFiltersAndRender();
+        });
+    }
+
+    if (clearSearchBtn) {
+        clearSearchBtn.addEventListener('click', () => {
+            if (searchInput) {
+                searchInput.value = '';
+                clearSearchBtn.classList.add('d-none');
+                applyFiltersAndRender();
+            }
+        });
+    }
+
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentFilterTag = btn.getAttribute('data-filter') || 'all';
+            applyFiltersAndRender();
+        });
+    });
 
     // Renderizar Skeletons de carregamento com Colunas Bootstrap 5
     function renderSkeletons(count) {
@@ -68,7 +136,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         videos.forEach(video => {
             const dateFormatted = formatDate(video.publishedAt);
-            
+            const isLive = video.title.toLowerCase().includes('live') || video.title.toLowerCase().includes('ao vivo');
+
             const col = document.createElement('div');
             col.className = 'col-12 col-md-6 col-lg-4';
 
@@ -78,9 +147,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         <img src="${escapeHtml(video.thumbnail)}" class="card-img-top img-fluid" alt="${escapeHtml(video.title)}" loading="lazy" />
                         <div class="play-overlay d-flex align-items-center justify-content-center">
                             <div class="play-icon d-flex align-items-center justify-content-center shadow-lg">
-                                <i class="bi bi-play-fill fs-2"></i>
+                                <i class="bi bi-play-fill fs-1"></i>
                             </div>
                         </div>
+                        ${isLive ? '<span class="badge bg-danger position-absolute top-0 start-0 m-3 px-2 py-1 shadow-sm"><i class="bi bi-broadcast me-1"></i>LIVE</span>' : ''}
                     </div>
                     <div class="card-body p-3 d-flex flex-column justify-content-between">
                         <div>
@@ -97,6 +167,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
             container.appendChild(col);
         });
+    }
+
+    // Mensagem de Busca Vazia
+    function renderEmptySearch() {
+        container.innerHTML = `
+            <div class="col-12 text-center py-5">
+                <div class="p-4 bg-dark rounded-4 border border-secondary d-inline-block shadow-sm">
+                    <i class="bi bi-search text-warning fs-1 mb-3 d-block"></i>
+                    <h4 class="h5 text-light mb-2">Nenhum vídeo encontrado</h4>
+                    <p class="text-secondary mb-3 fs-6">Não encontramos resultados para a sua busca ou filtro selecionado.</p>
+                    <button type="button" id="reset-filter-btn" class="btn btn-outline-warning btn-sm rounded-pill px-4">Limpar Filtros</button>
+                </div>
+            </div>
+        `;
+
+        const resetBtn = document.getElementById('reset-filter-btn');
+        if (resetBtn) {
+            resetBtn.addEventListener('click', () => {
+                if (searchInput) searchInput.value = '';
+                if (clearSearchBtn) clearSearchBtn.classList.add('d-none');
+                currentFilterTag = 'all';
+                filterButtons.forEach(b => b.classList.remove('active'));
+                const allBtn = document.querySelector('.btn-filter[data-filter="all"]');
+                if (allBtn) allBtn.classList.add('active');
+                applyFiltersAndRender();
+            });
+        }
     }
 
     // Mensagem de Erro
@@ -124,7 +221,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (bsModalInstance) {
             bsModalInstance.show();
         } else if (modalEl) {
-            // Fallback caso Bootstrap JS esteja carregando
             modalEl.classList.add('show');
             modalEl.style.display = 'block';
         }

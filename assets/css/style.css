@@ -7,54 +7,67 @@
     --bg-card-hover: #252d3f;
     --text-main: #f8fafc;
     --text-muted: #94a3b8;
-    --border-color: rgba(255, 255, 255, 0.08);
-    --shadow-glow: 0 8px 30px rgba(0, 0, 0, 0.5);
+    --border-color: rgba(255, 255, 255, 0.1);
+    --shadow-glow: 0 12px 35px rgba(0, 0, 0, 0.6), 0 0 25px rgba(59, 130, 246, 0.2);
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 body {
     background-color: var(--bg-dark) !important;
+    background-image: linear-gradient(180deg, rgba(11, 14, 20, 0.78) 0%, rgba(11, 14, 20, 0.92) 40%, rgba(11, 14, 20, 0.98) 100%), url('../img/slider-1.png');
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: cover;
+    background-attachment: fixed;
     color: var(--text-main);
     font-family: 'Poppins', 'Segoe UI', system-ui, -apple-system, sans-serif;
 }
 
-/* NAVBAR CUSTOMIZADA */
-.custom-navbar {
-    background: rgba(19, 23, 34, 0.92) !important;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-color: var(--border-color) !important;
+/* NAVBAR FLUTUANTE (FLOATING PILL NAVBAR) */
+.header-floating-wrapper {
+    z-index: 1050;
+}
+
+.custom-navbar-floating {
+    background: rgba(19, 23, 34, 0.82) !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6), 0 0 20px rgba(59, 130, 246, 0.15) !important;
+    transition: var(--transition);
 }
 
 .brand-logo img {
-    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.4));
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
     transition: var(--transition);
 }
 
 .brand-logo:hover img {
-    transform: scale(1.03);
+    transform: scale(1.04);
 }
 
 .navbar-menu .nav-link {
     color: var(--text-muted);
     font-size: 0.95rem;
     letter-spacing: 0.5px;
-    padding: 8px 12px;
+    padding: 8px 14px;
     transition: var(--transition);
     position: relative;
+    border-radius: 20px;
 }
 
 .navbar-menu .nav-link:hover,
 .navbar-menu .nav-link.active {
     color: var(--primary-color) !important;
+    background: rgba(255, 225, 77, 0.08);
 }
 
 .navbar-menu .nav-link::after {
     content: '';
     position: absolute;
-    bottom: 0;
-    left: 12px;
-    right: 12px;
+    bottom: 4px;
+    left: 14px;
+    right: 14px;
     height: 2px;
     background: var(--primary-color);
     width: 0%;
@@ -64,7 +77,7 @@ body {
 
 .navbar-menu .nav-link:hover::after,
 .navbar-menu .nav-link.active::after {
-    width: calc(100% - 24px);
+    width: calc(100% - 28px);
 }
 
 .btn-yt-custom {
@@ -76,28 +89,85 @@ body {
 .btn-yt-custom:hover {
     background-color: #cc0000 !important;
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(255, 0, 0, 0.4) !important;
+    box-shadow: 0 6px 20px rgba(255, 0, 0, 0.45) !important;
 }
 
-/* HERO SECTION */
+/* HERO SECTION & RADIAL GLOW */
 .hero-section {
     position: relative;
+}
+
+.hero-bg-glow {
+    position: absolute;
+    top: -40%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 900px;
+    height: 900px;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.22) 0%, rgba(255, 225, 77, 0.1) 35%, rgba(11, 14, 20, 0) 70%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.fw-extrabold {
+    font-weight: 800;
 }
 
 .hero-title {
     background: linear-gradient(135deg, #ffffff 0%, var(--primary-color) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
 .hero-subtitle {
-    color: var(--text-muted) !important;
-    max-width: 650px;
+    color: #cbd5e1 !important;
+    max-width: 680px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+}
+
+/* BARRA DE PESQUISA E FILTROS */
+.search-input {
+    font-size: 0.95rem;
+    transition: var(--transition);
+    background-color: rgba(19, 23, 34, 0.9) !important;
+    backdrop-filter: blur(8px);
+}
+
+.search-input:focus {
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 20px rgba(255, 225, 77, 0.3) !important;
+    background-color: #161b26 !important;
+}
+
+.btn-filter {
+    background: rgba(19, 23, 34, 0.8);
+    backdrop-filter: blur(6px);
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.btn-filter:hover {
+    color: var(--primary-color);
+    border-color: rgba(255, 225, 77, 0.4);
+    background: rgba(255, 225, 77, 0.15);
+}
+
+.btn-filter.active {
+    background: var(--primary-color);
+    color: var(--bg-dark);
+    font-weight: 700;
+    border-color: var(--primary-color);
+    box-shadow: 0 4px 12px rgba(255, 225, 77, 0.3);
 }
 
 /* VIDEO CARD */
 .video-card {
-    background-color: var(--bg-card) !important;
+    background-color: rgba(28, 34, 48, 0.85) !important;
+    backdrop-filter: blur(10px);
     border-color: var(--border-color) !important;
     transition: var(--transition);
     border-radius: 16px !important;
@@ -105,8 +175,8 @@ body {
 
 .video-card:hover {
     transform: translateY(-6px);
-    background-color: var(--bg-card-hover) !important;
-    border-color: rgba(255, 225, 77, 0.3) !important;
+    background-color: rgba(37, 45, 63, 0.95) !important;
+    border-color: rgba(255, 225, 77, 0.35) !important;
     box-shadow: var(--shadow-glow) !important;
 }
 
@@ -136,8 +206,8 @@ body {
 }
 
 .play-icon {
-    width: 54px;
-    height: 54px;
+    width: 58px;
+    height: 58px;
     background: var(--primary-color);
     color: var(--bg-dark);
     border-radius: 50%;
@@ -203,12 +273,14 @@ body {
 /* CUSTOM CARDS & SOBRE */
 .custom-card {
     border-radius: 16px !important;
-    background-color: var(--bg-card) !important;
+    background-color: rgba(28, 34, 48, 0.85) !important;
+    backdrop-filter: blur(12px);
     border-color: var(--border-color) !important;
 }
 
 .cta-banner {
-    background: linear-gradient(135deg, rgba(255, 0, 0, 0.15) 0%, rgba(20, 24, 36, 0.9) 100%);
+    background: linear-gradient(135deg, rgba(255, 0, 0, 0.18) 0%, rgba(20, 24, 36, 0.95) 100%);
+    backdrop-filter: blur(8px);
 }
 
 .custom-modal-content {
@@ -219,6 +291,7 @@ body {
 
 /* FOOTER */
 .custom-footer {
-    background-color: var(--bg-surface) !important;
+    background-color: rgba(19, 23, 34, 0.95) !important;
+    backdrop-filter: blur(10px);
     border-color: var(--border-color) !important;
 }
