@@ -6,9 +6,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('video-search-input');
     const clearSearchBtn = document.getElementById('clear-search-btn');
     const filterButtons = document.querySelectorAll('.btn-filter');
+    const ytExternalBtn = document.getElementById('yt-search-external-btn');
+    const ytBtnText = document.getElementById('yt-search-btn-text');
 
     let allVideos = [];
     let currentFilterTag = 'all';
+    let currentFilterTerm = '';
     let bsModalInstance = null;
 
     if (modalEl && typeof bootstrap !== 'undefined') {
@@ -51,14 +54,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Aplicar Filtro por busca e tag
     function applyFiltersAndRender() {
-        const query = searchInput ? searchInput.value.trim().toLowerCase() : '';
+        const query = searchInput ? searchInput.value.trim() : '';
+        const queryLower = query.toLowerCase();
 
         const filtered = allVideos.filter(video => {
             const title = video.title ? video.title.toLowerCase() : '';
             const desc = video.description ? video.description.toLowerCase() : '';
 
             // Match busca por texto
-            const matchesQuery = !query || title.includes(query) || desc.includes(query);
+            const matchesQuery = !queryLower || title.includes(queryLower) || desc.includes(queryLower);
 
             // Match busca por tag
             let matchesTag = true;
@@ -75,10 +79,27 @@ document.addEventListener('DOMContentLoaded', () => {
             return matchesQuery && matchesTag;
         });
 
+        // Atualizar o botão de busca externa do YouTube
+        updateYouTubeExternalLink(query || currentFilterTerm);
+
         if (filtered.length > 0) {
             renderVideos(filtered);
         } else {
-            renderEmptySearch();
+            renderEmptySearch(query || currentFilterTerm);
+        }
+    }
+
+    // Atualizar o botão CTA do YouTube dinamicamente com o termo buscado
+    function updateYouTubeExternalLink(searchTerm) {
+        if (!ytExternalBtn || !ytBtnText) return;
+
+        if (searchTerm && searchTerm.trim() !== '') {
+            const encodedTerm = encodeURIComponent(searchTerm.trim());
+            ytExternalBtn.href = `https://www.youtube.com/@asasvirtuais/search?query=${encodedTerm}`;
+            ytBtnText.textContent = `Buscar "${searchTerm.trim()}" no acervo completo do YouTube`;
+        } else {
+            ytExternalBtn.href = `https://www.youtube.com/@asasvirtuais/videos`;
+            ytBtnText.textContent = `Ver Todo o Acervo no YouTube (+100 Vídeos)`;
         }
     }
 
@@ -107,6 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
             filterButtons.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             currentFilterTag = btn.getAttribute('data-filter') || 'all';
+            currentFilterTerm = btn.getAttribute('data-term') || '';
             applyFiltersAndRender();
         });
     });
@@ -169,15 +191,27 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Mensagem de Busca Vazia
-    function renderEmptySearch() {
+    // Mensagem de Busca Vazia orientando busca no YouTube
+    function renderEmptySearch(searchTerm) {
+        const encodedTerm = encodeURIComponent(searchTerm || '');
+        const searchUrl = searchTerm ? `https://www.youtube.com/@asasvirtuais/search?query=${encodedTerm}` : `https://www.youtube.com/@asasvirtuais/videos`;
+
         container.innerHTML = `
             <div class="col-12 text-center py-5">
-                <div class="p-4 bg-dark rounded-4 border border-secondary d-inline-block shadow-sm">
+                <div class="p-4 p-md-5 bg-dark rounded-4 border border-secondary d-inline-block shadow-lg" style="max-width: 600px;">
                     <i class="bi bi-search text-warning fs-1 mb-3 d-block"></i>
-                    <h4 class="h5 text-light mb-2">Nenhum vídeo encontrado</h4>
-                    <p class="text-secondary mb-3 fs-6">Não encontramos resultados para a sua busca ou filtro selecionado.</p>
-                    <button type="button" id="reset-filter-btn" class="btn btn-outline-warning btn-sm rounded-pill px-4">Limpar Filtros</button>
+                    <h4 class="h5 text-light mb-2">Nenhum vídeo recente encontrado para "${escapeHtml(searchTerm)}"</h4>
+                    <p class="text-secondary mb-4 fs-6">
+                        Exibimos nesta página os vídeos mais recentes do canal. Caso o vídeo que você procura seja mais antigo, pesquise em todo o nosso acervo diretamente no YouTube.
+                    </p>
+                    <div class="d-flex flex-column flex-sm-row justify-content-center gap-3">
+                        <a href="${searchUrl}" target="_blank" rel="noopener" class="btn btn-danger btn-md rounded-pill px-4 fw-bold">
+                            <i class="bi bi-youtube me-2"></i>Buscar "${escapeHtml(searchTerm)}" no YouTube
+                        </a>
+                        <button type="button" id="reset-filter-btn" class="btn btn-outline-warning btn-md rounded-pill px-4">
+                            Limpar Filtros
+                        </button>
+                    </div>
                 </div>
             </div>
         `;
@@ -188,6 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (searchInput) searchInput.value = '';
                 if (clearSearchBtn) clearSearchBtn.classList.add('d-none');
                 currentFilterTag = 'all';
+                currentFilterTerm = '';
                 filterButtons.forEach(b => b.classList.remove('active'));
                 const allBtn = document.querySelector('.btn-filter[data-filter="all"]');
                 if (allBtn) allBtn.classList.add('active');
