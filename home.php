@@ -1,13 +1,40 @@
 <main class="flex-grow-1">
-    <section class="py-5 text-center hero-section">
-        <div class="container">
-            <h1 class="hero-title display-5 fw-bold mb-3">Canal Asas Virtuais</h1>
-            <p class="hero-subtitle lead mx-auto">
-                Confira os últimos vídeos de simulação de voo, tutoriais e gameplays de aviação virtual, publicados no canal. 
+    <!-- Hero Section com Radial Glow & Busca -->
+    <section class="py-5 text-center hero-section position-relative overflow-hidden">
+        <div class="hero-bg-glow"></div>
+        <div class="container position-relative z-1">
+            <span class="badge bg-warning text-dark fw-bold px-3 py-2 rounded-pill shadow-sm mb-3 fs-6">VÍDEOS DO CANAL</span>
+
+            <h1 class="hero-title display-4 fw-extrabold mb-3">Asas Virtuais</h1>
+            <p class="hero-subtitle lead mx-auto mb-4">
+                Simulação de voo, tutoriais avançados de navegacão IFR/VFR, procedimentos operacionais e lives ao vivo.
             </p>
+
+            <!-- Barra de Pesquisa e Filtros -->
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-8 col-lg-6">
+                    <div class="search-box-wrapper position-relative mb-3">
+                        <i class="bi bi-search search-icon position-absolute top-50 start-0 translate-middle-y ms-3 text-secondary fs-5"></i>
+                        <input type="text" id="video-search-input" class="form-control form-control-lg search-input ps-5 pe-4 bg-dark text-light border-secondary shadow-lg rounded-pill" placeholder="Buscar vídeo por título (ex: ILS, Zibo, Live)..." aria-label="Buscar vídeo">
+                        <button type="button" id="clear-search-btn" class="btn btn-link text-secondary position-absolute top-50 end-0 translate-middle-y me-2 d-none" aria-label="Limpar busca">
+                            <i class="bi bi-x-circle-fill fs-5"></i>
+                        </button>
+                    </div>
+
+                    <!-- Tags de Filtro Rápido -->
+                    <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 filter-tags-container">
+                        <button type="button" class="btn btn-sm btn-filter active rounded-pill px-3" data-filter="all">Todos</button>
+                        <button type="button" class="btn btn-sm btn-filter rounded-pill px-3" data-filter="live">🔴 Lives</button>
+                        <button type="button" class="btn btn-sm btn-filter rounded-pill px-3" data-filter="tutorial">Tutoriais</button>
+                        <button type="button" class="btn btn-sm btn-filter rounded-pill px-3" data-filter="ils">Cartas ILS</button>
+                        <button type="button" class="btn btn-sm btn-filter rounded-pill px-3" data-filter="zibo">737 / Zibo</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
+    <!-- Grade de Vídeos -->
     <section class="pb-5">
         <div class="container">
             <div id="ultimos-videos-container" class="row g-4">
