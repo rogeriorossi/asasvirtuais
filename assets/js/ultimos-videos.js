@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Mensagem de Busca Vazia orientando busca no YouTube
+    // Mensagem de Busca Vazia orientando busca no YouTube com o botão vermelho oficial
     function renderEmptySearch(searchTerm) {
         const encodedTerm = encodeURIComponent(searchTerm || '');
         const searchUrl = searchTerm ? `https://www.youtube.com/@asasvirtuais/search?query=${encodedTerm}` : `https://www.youtube.com/@asasvirtuais/videos`;
@@ -205,8 +205,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         Exibimos nesta página os vídeos mais recentes do canal. Caso o vídeo que você procura seja mais antigo, pesquise em todo o nosso acervo diretamente no YouTube.
                     </p>
                     <div class="d-flex flex-column flex-sm-row justify-content-center gap-3">
-                        <a href="${searchUrl}" target="_blank" rel="noopener" class="btn btn-danger btn-md rounded-pill px-4 fw-bold">
-                            <i class="bi bi-youtube me-2"></i>Buscar "${escapeHtml(searchTerm)}" no YouTube
+                        <a href="${searchUrl}" target="_blank" rel="noopener" class="btn btn-danger btn-yt-custom btn-md rounded-pill px-4 fw-bold shadow-sm d-inline-flex align-items-center justify-content-center gap-2">
+                            <i class="bi bi-youtube fs-5"></i><span>Buscar "${escapeHtml(searchTerm)}" no YouTube</span>
                         </a>
                         <button type="button" id="reset-filter-btn" class="btn btn-outline-warning btn-md rounded-pill px-4">
                             Limpar Filtros

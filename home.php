@@ -46,8 +46,8 @@
                 <div class="row align-items-center justify-content-center">
                     <div class="col-12 col-lg-8">
                         <h3 class="h4 fw-bold text-white mb-2">Procurando por um vídeo específico ou mais antigo?</h3>
-                        <p class="text-secondary mb-3">O canal Asas Virtuais conta com um acervo completo de mais de 100 vídeos, lives e tutoriais disponíveis no YouTube.</p>
-                        <a id="yt-search-external-btn" href="https://www.youtube.com/@asasvirtuais/videos" target="_blank" rel="noopener" class="btn btn-danger btn-lg px-4 py-3 fw-bold shadow-lg d-inline-flex align-items-center gap-3 rounded-pill">
+                        <p class="text-secondary mb-4">O canal Asas Virtuais conta com um acervo completo de mais de 100 vídeos, lives e tutoriais disponíveis no YouTube.</p>
+                        <a id="yt-search-external-btn" href="https://www.youtube.com/@asasvirtuais/videos" target="_blank" rel="noopener" class="btn btn-danger btn-yt-custom btn-lg px-4 py-3 fw-bold shadow-lg d-inline-flex align-items-center gap-3 rounded-pill">
                             <i class="bi bi-youtube fs-3"></i>
                             <span id="yt-search-btn-text">Ver Todo o Acervo no YouTube (+100 Vídeos)</span>
                         </a>
