@@ -55,7 +55,7 @@
                     <div class="p-4 p-md-5 rounded-4 text-center cta-banner border border-danger border-opacity-50 my-4 shadow-lg">
                         <h3 class="h4 fw-bold text-white mb-2">Inscreva-se e Acompanhe no YouTube</h3>
                         <p class="text-secondary mb-4">Não perca nenhuma live ou tutorial. Faça parte da nossa comunidade de aviação virtual!</p>
-                        <a href="https://www.youtube.com/@asasvirtuais" target="_blank" rel="noopener" class="btn btn-danger btn-lg px-4 py-3 fw-bold shadow-lg d-inline-flex align-items-center gap-3 rounded-pill">
+                        <a href="https://www.youtube.com/@asasvirtuais" target="_blank" rel="noopener" class="btn btn-danger btn-yt-custom btn-lg px-4 py-3 fw-bold shadow-lg d-inline-flex align-items-center gap-3 rounded-pill">
                             <i class="bi bi-youtube fs-3"></i>
                             <span>Ir para a Página Inicial do Canal no YouTube</span>
                         </a>
